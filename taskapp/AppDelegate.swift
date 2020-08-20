@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    //UNUserNotioficationCenterDelateを追加
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, UISearchBarDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //ユーザーに通知の許可を求める
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            //Enable or disable features based on aut horization
+        }
+        center.delegate = self
+        
         return true
+    }
+    //アプリがフオアグランドの時に通知を受け取ると呼ばれるメソッド
+    func userNotificationCenter(_ canter: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
     }
 
     // MARK: UISceneSession Lifecycle
@@ -34,4 +48,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
+
 
